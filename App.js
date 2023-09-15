@@ -1,20 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomeScreen from './screens/homescreen';
+import CustomHeader from './components/customHeader'; // Import CustomHeader
+import CalendarContainer from './components/CalendarContainer'; // Import CalendarContainer
 
-export default function App() {
+const Stack = createStackNavigator();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="PaymentHistory">
+        <Stack.Screen
+          name="PaymentHistory"
+          component={HomeScreen}
+          options={({ navigation }) => ({
+            title: 'Payment History',
+            headerLeft: () => (
+              <CustomHeader navigation={navigation} /> // Use CustomHeader as the headerLeft
+            ),
+          })}
+        />
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+        <Stack.Screen
+          name="Calendar"
+          component={CalendarContainer}
+          options={{ title: 'Calendar' }}
+        />
+
+        {/* Add other screens here */}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default App;
